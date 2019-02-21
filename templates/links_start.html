@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en" class="has-navbar-fixed-top">
+
+<head>
+    <meta charset="UTF-8">
+    <title>ESSV Links Demo</title>
+    <link rel="shortcut icon" href="../images/fav_icon.png" type="image/x-icon">
+    <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.css'>
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+        integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.6/dist/vue.js"></script>
+    <link rel="shortcut icon" href="https://www.cabovillas.com/essvlogo.ico" type="image/x-icon" />    
+
+</head>
+
+<body>
+    <div id="example">
+    <section class="section">
+        <div class="container is-fluid">
+            <div class="columns">
+                <div class="column" v-bind:style="[truthy ? dynamicBorder : noneBorder]">
+                    
+                    <p>Original message: "{{ message }}"</p>
+                    <p>Computed reversed message: "{{ reversedMessage }}"</p>
+                    <p>Radio button value (buttonValue): {{ buttonValue }} </p>
+            
+                    <div v-bind:style="[truthy ? dynamicBorder : noneBorder]">
+                        truthy!!! {{ truthy }}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container is-fluid">
+            <div class="columns ">
+                <div 
+                  class="column"
+                  v-bind:style="[truthy ? dynamicBorder : noneBorder]"
+                >
+                    <div class="control">
+                            Column Borders?  
+                        <label for="yes" class="radio"><input type="radio" id="yes" name="answer" :value="true" v-model="buttonValue" />
+                        Yes
+                        </label>
+                        <label for="no" class="radio"><input type="radio" id="no" name="answer" :value="false" v-model="buttonValue" />
+                        No
+                        </label>
+                    </div>
+                </div>
+                <div 
+                class="column"
+                v-bind:style="[truthy ? dynamicBorder : noneBorder]"
+                >
+                <div class="control">
+                    Border Style:
+                    <select v-model="selected">  <!-- Next step would be dynamic render with "v-for" -->
+                            <option value="solid" default>solid</option>
+                            <option>dotted</option>
+                            <option>dashed</option>
+                            <option>groove</option>
+                          </select>
+                          <span>Selected: {{ selected }}</span>
+                </div>
+                </div>
+            </div>
+        </div> <!-- Move this div to just before vue script tag below to make entire page reactive/part of vue instance...-->
+    </section>
+    
+    <section class="section">
+        <div class="container is-fluid">
+            <div class="columns has-text-centered">
+                <div 
+                  class="column"
+                  v-bind:style="[truthy ? dynamicBorder : noneBorder]"
+                >
+                    <div>
+                        <a href="#specials"><i class="fa fa-tags fa-3x"></i></a>
+                    </div>
+                    <p class="subtitle has-text-weight-semibold">Latest Cabo Deals</p>
+                    <p>There's so much to do and see in Cabo San Lucas, including golf, fishing, sunset cruises, and
+                        diving.
+                        Explore <a href="#tours">Activities</a>.</p>
+                </div>
+                <div 
+                  class="column"
+                  v-bind:style="[truthy ? dynamicBorder : noneBorder]"
+                >
+                    <div>
+                        <a href="#tours"><i class="fa fa-life-ring fa-3x"></i></a>
+                    </div>
+                    <p class="subtitle has-text-weight-semibold">Tours & Activites</p>
+                    <p>There's so much to do and see in Cabo San Lucas, including golf, fishing, sunset cruises, and
+                        diving.
+                        Explore <a href="#tours">Activities</a>.</p>
+                </div>
+                <div 
+                  class="column"
+                  v-bind:style="[truthy ? dynamicBorder : noneBorder]"
+                >
+                    <div>
+                        <a href="#chef_services"><i class="fa fa-leaf fa-3x"></i></a>
+                    </div>
+                    <p class="subtitle has-text-weight-semibold">Special Services</p>
+                    <p>We can arrange all of the extras for an unforgettable villa vacation including <a
+                            href="#chef_services">chef services</a>, <a href="#special_services">grocery
+                            pre-stocking</a> and in-villa <a href="#spa_services.">spa services</a>.</p>
+                </div>
+                <div 
+                  class="column"
+                  v-bind:style="[truthy ? dynamicBorder : noneBorder]"
+                >
+                    <div>
+                        <a href="#real-estate"><i class="fa fa-home fa-3x"></i></a>
+                    </div>
+                    <p class="subtitle has-text-weight-semibold">Los Cabos Real Estate</p>
+                    <p>We are excited to partner with The Agency Los Cabos, a full-service, luxury real estate
+                        brokerage. <a href="#real-estate">Cabo Real Estate</a></p>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+    <script>
+    var vm = new Vue({
+        el: '#example',
+        data: {
+            selected: 'solid',
+            noneBorder: {
+                'border-width': '0px',
+            },
+            message: 'Hello',
+            choiceButton1: true,
+            buttonValue: true, // buttonValue is attribute value of "v-model" above, e.g. v-model="buttonValue" <-- set's default for inputs!!!
+        },
+        computed: {
+            // a computed getter
+            reversedMessage: function () {
+                // `this` points to the vm instance
+                return this.message.split('').reverse().join('')
+            },
+            bordersOn: function () {
+                // returns truthyness of "Yes/No" radio button choice
+                return this.truthy // truthy is not a function here!!!!
+            }, 
+            dynamicBorder: function() {
+                if (this.selected !== 'groove') {
+                    return {
+                        'border-style': this.selected,
+                        'border-width': 'thin'
+                    }
+                }
+                else {
+                    return {
+                        'border-style': this.selected,
+                        'border-color': 'coral'
+                    }
+                }
+            },
+            truthy: function () {
+                // returns truthyness of "Yes/No" radio button choice
+                return (this.buttonValue ? true : false)
+            },
+        },
+        watch: { // Had some issues with 'buttonValue' updating in computed -> dynamicBorder above
+            selected: function(val) {
+                this.buttonValue = true;
+            }
+        }
+    })
+    </script>
+
+</body>
+</html>
